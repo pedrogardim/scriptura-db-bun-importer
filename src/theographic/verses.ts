@@ -1,13 +1,13 @@
 import { client } from "../db";
 
 export const importVerses = async () => {
-  const versesJson = await Bun.file("json/verses.json", {
+  const versesJson = await Bun.file("data/theographic/verses.json", {
     type: "application/json",
   }).json();
-  const chaptersJson = await Bun.file("json/chapters.json", {
+  const chaptersJson = await Bun.file("data/theographic/chapters.json", {
     type: "application/json",
   }).json();
-  const booksJson = await Bun.file("json/books.json", {
+  const booksJson = await Bun.file("data/theographic/books.json", {
     type: "application/json",
   }).json();
 
@@ -72,7 +72,7 @@ export const importVerses = async () => {
   }
 };
 export const importBibleVersion = async () => {
-  const versesJson = await Bun.file("json/verses.json", {
+  const versesJson = await Bun.file("data/theographic/verses.json", {
     type: "application/json",
   }).json();
 

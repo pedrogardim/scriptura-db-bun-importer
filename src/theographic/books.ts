@@ -6,7 +6,9 @@ const testamentMap = {
   "New Testament": "nt",
 };
 export const importBooks = async () => {
-  const books = Bun.file("json/books.json", { type: "application/json" });
+  const books = Bun.file("data/theographic/books.json", {
+    type: "application/json",
+  });
   let jsonBooks = await books.json();
 
   const divisions: string[] = [];
