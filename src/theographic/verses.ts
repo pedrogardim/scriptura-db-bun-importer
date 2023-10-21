@@ -14,25 +14,6 @@ export const importVerses = async () => {
   const chapterIdArray = chaptersJson.map((e) => e.id);
   const bookIdArray = booksJson.map((e) => e.id);
 
-  // const tlLengthMap = {};
-
-  // versesJson.map((e) => {
-  //   let len = e.fields.timeline?.length;
-  //   if (!len) {
-  //     len = "undefined";
-  //   }
-  //   if (!tlLengthMap[len]) {
-  //     tlLengthMap[len] = 1;
-  //   } else {
-  //     tlLengthMap[len]++;
-  //   }
-  // });
-
-  // console.log(tlLengthMap);
-  // return;
-  // await client.query(`
-  // DROP TABLE IF EXISTS verses;
-
   // CREATE TABLE verses(
   //   id INT PRIMARY KEY,
   //   theographic_id TEXT,
