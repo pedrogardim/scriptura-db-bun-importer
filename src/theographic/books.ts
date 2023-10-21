@@ -20,7 +20,7 @@ export const importBooks = async () => {
   DROP TABLE IF EXISTS books;
 
   CREATE TABLE books(
-	id SERIAL, 
+	id INT PRIMARY KEY, 
 	theographic_id text,
     code text,
     division_id INT,

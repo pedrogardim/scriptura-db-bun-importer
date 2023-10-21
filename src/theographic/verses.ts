@@ -1,0 +1,73 @@
+import { client } from "../db";
+
+export const importVerses = async () => {
+  const versesJson = await Bun.file("json/verses.json", {
+    type: "application/json",
+  }).json();
+  const chaptersJson = await Bun.file("json/chapters.json", {
+    type: "application/json",
+  }).json();
+  const booksJson = await Bun.file("json/books.json", {
+    type: "application/json",
+  }).json();
+
+  const chapterIdArray = chaptersJson.map((e) => e.id);
+  const bookIdArray = booksJson.map((e) => e.id);
+
+  // const tlLengthMap = {};
+
+  // versesJson.map((e) => {
+  //   let len = e.fields.timeline?.length;
+  //   if (!len) {
+  //     len = "undefined";
+  //   }
+  //   if (!tlLengthMap[len]) {
+  //     tlLengthMap[len] = 1;
+  //   } else {
+  //     tlLengthMap[len]++;
+  //   }
+  // });
+
+  // console.log(tlLengthMap);
+  // return;
+  // await client.query(`
+  // DROP TABLE IF EXISTS verses;
+
+  // CREATE TABLE verses(
+  //   id INT PRIMARY KEY,
+  //   theographic_id TEXT,
+  //   book_id INT,
+  //   chapter_num INT,
+  //   verse_num INT,
+  //   verse_code INT,
+  //   year_written INT,
+  //   CONSTRAINT fk_book
+  //     FOREIGN KEY(book_id) 
+	//       REFERENCES books(id)
+  // );
+  // `);
+
+  for (const verseIndex in versesJson) {
+    const verseId = parseInt(verseIndex) + 1;
+    const jsonVerse = versesJson[verseIndex];
+    const verse = {
+      id: verseId,
+      theographic_id: jsonVerse.id,
+      book_id: bookIdArray.indexOf(jsonVerse.fields.book[0]) + 1,
+      chapter_num: chaptersJson.find(
+        (e) => e.id === jsonVerse.fields.chapter[0]
+      ).fields.chapterNum,
+      verse_num: parseInt(jsonVerse.fields.verseNum),
+      verse_code: jsonVerse.fields.verseID,
+      year_written: jsonVerse.fields.yearNum || "null",
+    };
+
+    // console.log(verse);
+    const res = await client.query(
+      `INSERT INTO verses VALUES (${Object.values(verse)
+        .map((e) => (typeof e === "string" && e !== "null" ? `'${e}'` : e))
+        .join(",")});`
+    );
+    console.log(verse.id, verse.verse_code, res.rowCount);
+  }
+};
