@@ -42,8 +42,8 @@ export const importVerses = async () => {
   //   verse_code INT,
   //   year_written INT,
   //   CONSTRAINT fk_book
-  //     FOREIGN KEY(book_id) 
-	//       REFERENCES books(id)
+  //     FOREIGN KEY(book_id)
+  //       REFERENCES books(id)
   // );
   // `);
 
@@ -69,5 +69,39 @@ export const importVerses = async () => {
         .join(",")});`
     );
     console.log(verse.id, verse.verse_code, res.rowCount);
+  }
+};
+export const importBibleVersion = async () => {
+  const versesJson = await Bun.file("json/verses.json", {
+    type: "application/json",
+  }).json();
+
+  // await client.query(`
+  //   DROP TABLE IF EXISTS bible_en_kjv;
+
+  //   CREATE TABLE bible_en_kjv(
+  //     verse_id INT PRIMARY KEY,
+  //     text TEXT,
+  //     CONSTRAINT fk_verse
+  //       FOREIGN KEY(verse_id)
+  //       REFERENCES verses(id)
+  //   );
+  // `);
+
+  for (const verseIndex in versesJson) {
+    const verseId = parseInt(verseIndex) + 1;
+    const jsonVerse = versesJson[verseIndex];
+    const verse = {
+      verse_id: verseId,
+      text: jsonVerse.fields.verseText,
+    };
+
+    // console.log(verse);
+    const res = await client.query(
+      `INSERT INTO bible_en_kjv VALUES (${Object.values(verse)
+        .map((e) => (typeof e === "string" ? `'${e}'` : e))
+        .join(",")});`
+    );
+    console.log(verse.verse_id, verse.text, res.rowCount);
   }
 };
