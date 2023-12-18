@@ -34,12 +34,12 @@ export const importPeople = async () => {
 
   for (const originalPerson of peopleJson) {
     const birthYearPeriod = periodsJson.find(
-      (p) =>
+      (p: any) =>
         p.id ===
         (originalPerson.fields.birthYear && originalPerson.fields.birthYear[0])
     );
     const deathYearPeriod = periodsJson.find(
-      (p) =>
+      (p: any) =>
         p.id ===
         (originalPerson.fields.deathYear && originalPerson.fields.deathYear[0])
     );
