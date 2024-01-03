@@ -15,7 +15,7 @@ export const importPeople = async () => {
     CREATE TABLE people(
       id INT PRIMARY KEY,
       theographic_id TEXT,
-      person_code TEXT,
+      slug TEXT,
       gender TEXT,
       name TEXT,
       surname TEXT,
@@ -47,7 +47,7 @@ export const importPeople = async () => {
     const person = {
       id: originalPerson.fields.personID,
       theographic_id: originalPerson.id,
-      person_code: originalPerson.fields.slug || null,
+      slug: originalPerson.fields.slug || null,
       gender: originalPerson.fields.gender === "Female" ? "F" : "M",
       name: originalPerson.fields.name || null,
       surname: originalPerson.fields.surname || null,
